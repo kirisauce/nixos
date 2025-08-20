@@ -8,6 +8,7 @@
     #../../system/plasma.nix
     ../../system/sddm.nix
     ../../system/resolved.nix
+    ../../system/common-fonts.nix
     ../../programs/hyprland.nix
     ../../programs/librime.nix
     ../../programs/clash-verge-rev.nix
@@ -39,14 +40,6 @@
     mesa
     glibc
     fontconfig
-  ];
-
-  fonts.fontconfig.enable = true;
-  fonts.packages = with pkgs; [
-    cascadia-code
-    maple-mono.NF-CN
-    nerd-fonts.fantasque-sans-mono
-    lxgw-wenkai
   ];
 
   users.users.kirisauce = {
