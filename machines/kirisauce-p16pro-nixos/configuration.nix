@@ -38,6 +38,7 @@
     vulkan-loader
     mesa
     glibc
+    fontconfig
   ];
 
   fonts.fontconfig.enable = true;
