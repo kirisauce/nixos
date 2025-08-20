@@ -8,7 +8,7 @@
     #../../system/plasma.nix
     ../../system/sddm.nix
     ../../system/resolved.nix
-    ../../system/common-fonts.nix
+    ../../components/common-fonts.nix
     ../../programs/hyprland.nix
     ../../programs/librime.nix
     ../../programs/clash-verge-rev.nix

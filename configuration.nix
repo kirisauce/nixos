@@ -21,23 +21,40 @@
   i18n.defaultLocale = "zh_CN.UTF-8";
 
   environment.systemPackages = with pkgs; [
+    # Common unix cmdline tools
     ripgrep
     fd
     eza
-    gdu
-    neovim
+
+    # Network tools
     wget
     curl
+    traceroute
+    socat
+    openssh
+
+    # System information tools
     lshw
     lsof
     coreutils
-    traceroute
     btop
     htop
-    patchelf
     smartmontools
 
-    socat
+    # Compress & Package tools
+    lz4
+    gzip
+    xz
+    zstd
+    gnutar
+    zip
+    unzip
+    p7zip
+
+    # Other tools
+    patchelf
+    gdu
+    neovim
   ];
 
   environment.variables = {
