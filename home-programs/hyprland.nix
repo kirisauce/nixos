@@ -262,7 +262,7 @@
 	  "fullscreen, title:^Media viewer$, class:^org.telegram.desktop$"
 
 	  # Visual Studio Code
-	  "opacity 0.92 0.86 1.0, class:^code$, initialTitle:^Visual Studio Code$"
+	  "opacity 0.92 0.86 1.0, class:^(Code|code)$, initialTitle:^Visual Studio Code$"
 
 	  # Godot Engine
 	  "float, title:^[a-zA-Z-_]+ \\(DEBUG\\)$, initialClass:^Godot$"
