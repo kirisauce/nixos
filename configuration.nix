@@ -9,6 +9,7 @@
     ./system/grub.nix
     ./system/hostname.nix
     ./system/nix-settings.nix
+    ./modules
   ];
 
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.

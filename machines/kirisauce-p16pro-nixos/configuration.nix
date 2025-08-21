@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ../../configuration.nix
     ../../system/openssh.nix
     ../../system/pipewire.nix
     #../../system/plasma.nix
@@ -12,7 +13,6 @@
     ../../programs/hyprland.nix
     ../../programs/librime.nix
     ../../programs/clash-verge-rev.nix
-    ../../configuration.nix
   ];
 
   myConfig.librime.lua.enable = true;

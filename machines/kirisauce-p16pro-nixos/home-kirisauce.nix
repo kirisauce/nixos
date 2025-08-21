@@ -76,13 +76,13 @@
   ];
 
   programs.chromium.enable = true;
-  programs.firefox.enable = true;
 
   programs.git = {
     enable = true;
     userEmail = "kirisauce@163.com";
     userName = "kirisauce";
   };
+  programs.home-manager.enable = true;
 
   home.stateVersion = "25.05";
 }

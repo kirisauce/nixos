@@ -1,0 +1,7 @@
+{ ... }:
+
+{
+  imports = [
+    ./gsettings-path.nix
+  ];
+}
