@@ -69,6 +69,7 @@
 
     python313
     python313Packages.ipython
+    python313Packages.pip
 
     fnm
 
