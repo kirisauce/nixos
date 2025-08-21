@@ -75,6 +75,14 @@
     papirus-icon-theme
   ];
 
+  home.pointerCursor = {
+    name = "phinger-cursors-dark";
+    package = pkgs.phinger-cursors;
+    size = 32;
+    gtk.enable = true;
+    x11.enable = true;
+  };
+
   programs.chromium.enable = true;
 
   programs.git = {
