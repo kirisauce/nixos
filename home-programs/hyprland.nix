@@ -43,6 +43,7 @@
     };
 
     hyprshot.enable = mkEnableOption "hyprshot integration";
+    hyprlock.enable = mkEnableOption "hyprlock integration";
 
     uwsmWrapper.enable = mkEnableOption "wrap exec-onces with UWSM";
   };
@@ -58,8 +59,9 @@
         mpv
         xdg-user-dirs
       ]
-      ++
-      lib.optionals config.myConfig.hyprland.hyprshot.enable [ hyprshot ];
+      ++ lib.optionals config.myConfig.hyprland.hyprshot.enable [ hyprshot ];
+
+    programs.hyprlock.enable = lib.mkDefault config.myConfig.hyprland.hyprlock.enable;
 
     wayland.windowManager.hyprland = {
       enable = true;
@@ -176,7 +178,6 @@
       in
         if uwsmWrapper.enable then builtins.map (i: "uwsm app -- ${i}") l else l
       ;
-       
 
       # See https://wiki.hypr.land/Configuring/Binds/ for more
       bind =
@@ -184,7 +185,6 @@
           # General
           "$mod, C, killactive"
           "$mod, T, exec, kitty"
-          "$mod, M, exit"
           "$mod, E, exec, nautilus"
           "$mod, V, togglefloating"
           "$mod, F, fullscreen"
@@ -205,6 +205,12 @@
 
           # OBS Studio Record Start/Stop
           "$mod, F10, pass, class:^com\\.obsproject\\.Studio$"
+
+          # Lock and sleep
+          "$mod, esc, exit"
+          "$mod, M, exec, hyprlock"
+          "$mod SHIFT, M, exec, hyprlock & sleep 1 && systemctl suspend"
+          "$mod CTRL, M, exec, hyprlock & sleep 1 && systemctl hibernate"
         ]
         ++
         # Workspace movement

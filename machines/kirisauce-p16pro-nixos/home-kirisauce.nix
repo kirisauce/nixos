@@ -1,5 +1,8 @@
 { config, pkgs, ... }:
 
+let
+  wallpaper = "~/wallpaper.webp";
+in
 {
   imports = [
     ../../home-programs
@@ -22,6 +25,7 @@
     waybarIntegration = true;
     nvidiaCompatible = true;
     hyprshot.enable = true;
+    hyprlock.enable = true;
 
     # Xwayland applications scale
     extraExecOnce = [
@@ -37,9 +41,14 @@
     wallpapers = [
       {
         output = "eDP-1";
-        path = "~/wallpaper.webp";
+        path = wallpaper;
       }
     ];
+  };
+
+  myConfig.hyprlock = {
+    enable = true;
+    backgroundImage = wallpaper;
   };
 
   myConfig = {
