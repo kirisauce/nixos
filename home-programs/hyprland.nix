@@ -22,9 +22,9 @@
       enable = mkEnableOption "input method environment vaiables";
       name = mkOption {
         description = "Input method module name";
-	default = "fcitx";
-	example = "fcitx";
-	type = types.str;
+        default = "fcitx";
+        example = "fcitx";
+        type = types.str;
       };
     };
 
@@ -39,7 +39,7 @@
       description = "Extra window rules for hyprland";
       default = [];
       type = types.listOf types.str;
-	example = [ "float, titile:^XUN$" ];
+        example = [ "float, titile:^XUN$" ];
     };
 
     hyprshot.enable = mkEnableOption "hyprshot integration";
@@ -55,6 +55,8 @@
         fuzzel
         nautilus
         xorg.xrdb
+        mpv
+        xdg-user-dirs
       ]
       ++
       lib.optionals config.myConfig.hyprland.hyprshot.enable [ hyprshot ];
@@ -142,7 +144,7 @@
         ];
 
         animation = [
-	  "windows, 1, 8, myBezier, slide 45%"
+          "windows, 1, 8, myBezier, slide 45%"
           # "windowsMove, 1, 7, myBezier"
           # "windowsIn, 1, 3, default, popin 90%"
           # "windowsOut, 1, 3, default, popin 90%"
@@ -168,9 +170,9 @@
           "mako"
         ]
         ++ (lib.optionals waybarIntegration [ "waybar" ])
-	++ (lib.optionals config.myConfig.hyprpaper.enable [ "hyprpaper" ])
+        ++ (lib.optionals config.myConfig.hyprpaper.enable [ "hyprpaper" ])
         ++ (lib.optionals inputMethod.enable [ "fcitx5" ])
-	++ extraExecOnce;
+        ++ extraExecOnce;
       in
         if uwsmWrapper.enable then builtins.map (i: "uwsm app -- ${i}") l else l
       ;
@@ -185,9 +187,9 @@
           "$mod, M, exit"
           "$mod, E, exec, nautilus"
           "$mod, V, togglefloating"
-	  "$mod, F, fullscreen"
+          "$mod, F, fullscreen"
           # "$mod, R, exec, tofi-drun | xargs hyprctl dispatch exec --"
-	  "$mod, R, exec, fuzzel"
+          "$mod, R, exec, fuzzel"
           "$mod, P, pseudo"
           "$mod, J, togglesplit"
 
@@ -198,8 +200,11 @@
           "$mod, down, movefocus, d"
 
           # Scroll through existing workspaces with $mod + scroll
-          "$mod, mouse_down, workspace, e+1"
-          "$mod, mouse_up, workspace, e-1"
+          "$mod, mouse_down, workspace, e-1"
+          "$mod, mouse_up, workspace, e+1"
+
+          # OBS Studio Record Start/Stop
+          "$mod, F10, pass, class:^com\\.obsproject\\.Studio$"
         ]
         ++
         # Workspace movement
@@ -215,12 +220,12 @@
           )
           9
         ))
-	++
-	lib.optionals hyprshot.enable [
-	  "$mod SHIFT, S, exec, hyprshot -m output"
-	  "$mod CTRL, S, exec, hyprshot -m window"
-	  "$mod ALT, S, exec, hyprshot -m region"
-	]
+        ++
+        lib.optionals hyprshot.enable (let args = "-z -o \"`xdg-user-dir PICTURES`\""; in [
+          "$mod SHIFT, S, exec, hyprshot -m output ${args}"
+          "$mod CTRL, S, exec, hyprshot -m window ${args}"
+          "$mod ALT, S, exec, hyprshot -m region ${args}"
+        ])
       ;
 
       bindm = [
@@ -240,37 +245,37 @@
             "XMODIFIERS,@im=${imName}"
           ])
         )
-	++
-	(lib.optionals nvidiaCompatible [
+        ++
+        (lib.optionals nvidiaCompatible [
           "LIBVA_DRIVER_NAME,nvidia"
-	  "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+          "__GLX_VENDOR_LIBRARY_NAME,nvidia"
         ])
       ;
 
       windowrule =
         [
-	  # QQ图片查看器
-	  "float, title:^图片查看器$"
+          # QQ图片查看器
+          "float, title:^图片查看器$"
 
-	  "opacity 0.91 0.84 0.93, title:^QQ$, class:^QQ$"
+          "opacity 0.91 0.84 0.93, title:^QQ$, class:^QQ$"
 
-	  # 微信
-	  "float, title:^预览$, class:^wechat$"
-	  "opacity 0.91 0.84 0.93, title:^微信$, class:^wechat$"
+          # 微信
+          "float, title:^预览$, class:^wechat$"
+          "opacity 0.91 0.84 0.93, title:^微信$, class:^wechat$"
 
-	  # Telegram Desktop Media Viewer
-	  "fullscreen, title:^Media viewer$, class:^org.telegram.desktop$"
+          # Telegram Desktop Media Viewer
+          "fullscreen, title:^Media viewer$, class:^org.telegram.desktop$"
 
-	  # Visual Studio Code
-	  "opacity 0.92 0.86 1.0, class:^(Code|code)$, initialTitle:^Visual Studio Code$"
+          # Visual Studio Code
+          "opacity 0.92 0.86 1.0, class:^(Code|code)$, initialTitle:^Visual Studio Code$"
 
-	  # Godot Engine
-	  "float, title:^[a-zA-Z-_]+ \\(DEBUG\\)$, initialClass:^Godot$"
-	  "float, title:^[a-zA-Z-_]+ \\(DEBUG\\)$, initialTitle:^Godot$"
-	  "opacity 0.91 0.84 0.93, title:^.* - Godot Engine$, class:^Godot$"
+          # Godot Engine
+          "float, title:^[a-zA-Z-_]+ \\(DEBUG\\)$, initialClass:^Godot$"
+          "float, title:^[a-zA-Z-_]+ \\(DEBUG\\)$, initialTitle:^Godot$"
+          "opacity 0.91 0.84 0.93, title:^.* - Godot Engine$, class:^Godot$"
         ]
-	++
-	extraWindowRules
+        ++
+        extraWindowRules
       ;
     };
 
