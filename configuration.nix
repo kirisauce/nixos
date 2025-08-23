@@ -36,6 +36,7 @@
 
     # System information tools
     lshw
+    inxi
     lsof
     coreutils
     btop
