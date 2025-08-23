@@ -56,6 +56,7 @@
     patchelf
     gdu
     neovim
+    file
   ];
 
   environment.variables = {
