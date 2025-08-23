@@ -45,6 +45,18 @@
     hyprshot.enable = mkEnableOption "hyprshot integration";
     hyprlock.enable = mkEnableOption "hyprlock integration";
 
+    audio.enable = mkOption {
+      description = "Whether to enable audio integration";
+      default = true;
+      example = false;
+      type = types.bool;
+    };
+    audio.volumePercentStep = mkOption {
+      description = "Volume raise/lower step in percentage (%)";
+      default = 2;
+      example = 5;
+      type = types.int;
+    };
     uwsmWrapper.enable = mkEnableOption "wrap exec-onces with UWSM";
   };
 
@@ -59,7 +71,8 @@
         mpv
         xdg-user-dirs
       ]
-      ++ lib.optionals config.myConfig.hyprland.hyprshot.enable [ hyprshot ];
+      ++ lib.optionals config.myConfig.hyprland.hyprshot.enable [ hyprshot ]
+      ++ lib.optionals config.myConfig.hyprland.audio.enable [ wireplumber playerctl pavucontrol ];
 
     programs.hyprlock.enable = lib.mkDefault config.myConfig.hyprland.hyprlock.enable;
 
@@ -232,6 +245,14 @@
           "$mod CTRL, S, exec, hyprshot -m window ${args}"
           "$mod ALT, S, exec, hyprshot -m region ${args}"
         ])
+        ++
+        lib.optionals audio.enable [
+          ", XF86AudioPrev, exec, playerctl previous"
+          "SHIFT, XF86AudioPrev, exec, playerctl position -5"
+          ", XF86AudioNext, exec, playerctl next"
+          "SHIFT, XF86AudioNext, exec, playerctl position +5"
+          ", XF86AudioMute, exec, wpctl set-mute '@DEFAULT_AUDIO_SINK@' toggle"
+        ]
       ;
 
       bindm = [
@@ -239,6 +260,11 @@
         "$mod, mouse:272, movewindow"
         "$mod, mouse:273, resizewindow"
       ];
+
+      bindle = lib.optionals audio.enable [
+          ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 '@DEFAULT_AUDIO_SINK@' '${toString audio.volumePercentStep}%+'"
+          ", XF86AudioLowerVolume, exec, wpctl set-volume '@DEFAULT_AUDIO_SINK@' '${toString audio.volumePercentStep}%-'"
+        ];
 
       env =
         (lib.optionals inputMethod.enable
