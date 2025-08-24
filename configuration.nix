@@ -58,6 +58,7 @@
     gdu
     neovim
     file
+    direnv
   ];
 
   environment.variables = {
