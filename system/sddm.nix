@@ -1,11 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
     enableHidpi = true;
-    package = pkgs.kdePackages.sddm;
+    package = lib.mkForce pkgs.kdePackages.sddm;
 
     theme = "catppuccin-mocha";
   };
