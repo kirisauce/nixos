@@ -57,6 +57,20 @@
       example = 5;
       type = types.int;
     };
+
+    brightness.enable = mkOption {
+      description = "Whether to enable brightness integration using brightnessctl";
+      default = true;
+      example = false;
+      type = types.bool;
+    };
+    brightness.percentStep = mkOption {
+      description = "Brightness raise/lower step in percentage (%)";
+      default = 2;
+      example = 5;
+      type = types.int;
+    };
+
     uwsmWrapper.enable = mkEnableOption "wrap exec-onces with UWSM";
   };
 
@@ -71,8 +85,10 @@
         mpv
         xdg-user-dirs
       ]
-      ++ lib.optionals config.myConfig.hyprland.hyprshot.enable [ hyprshot ]
-      ++ lib.optionals config.myConfig.hyprland.audio.enable [ wireplumber playerctl pavucontrol ];
+      ++ lib.optional config.myConfig.hyprland.hyprshot.enable hyprshot
+      ++ lib.optionals config.myConfig.hyprland.audio.enable [ wireplumber playerctl pavucontrol ]
+      ++ lib.optional config.myConfig.hyprland.brightness.enable brightnessctl
+    ;
 
     programs.hyprlock.enable = lib.mkDefault config.myConfig.hyprland.hyprlock.enable;
 
@@ -264,7 +280,13 @@
       bindle = lib.optionals audio.enable [
           ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 '@DEFAULT_AUDIO_SINK@' '${toString audio.volumePercentStep}%+'"
           ", XF86AudioLowerVolume, exec, wpctl set-volume '@DEFAULT_AUDIO_SINK@' '${toString audio.volumePercentStep}%-'"
-        ];
+        ]
+        ++
+        lib.optionals brightness.enable [
+          ", XF86MonBrightnessUp, exec, brightnessctl set '+${toString brightness.percentStep}%'"
+          ", XF86MonBrightnessDown, exec, brightnessctl set '${toString brightness.percentStep}%-'"
+        ]
+      ;
 
       env =
         (lib.optionals inputMethod.enable
