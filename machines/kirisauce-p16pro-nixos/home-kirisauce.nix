@@ -71,6 +71,7 @@ in
 
   home.packages = with pkgs; [
     vscode-fhs
+    helix
     fastfetch
     imagemagick
     godot
