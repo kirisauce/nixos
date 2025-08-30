@@ -59,6 +59,7 @@
     neovim
     file
     direnv
+    hdparm
   ];
 
   environment.variables = {

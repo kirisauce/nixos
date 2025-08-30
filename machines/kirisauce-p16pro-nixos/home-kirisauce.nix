@@ -74,6 +74,7 @@ in
     helix
     fastfetch
     imagemagick
+    exiftool
     godot
     obs-studio
 

@@ -84,6 +84,8 @@
         xorg.xrdb
         mpv
         xdg-user-dirs
+        jmtpfs
+        gthumb
       ]
       ++ lib.optional config.myConfig.hyprland.hyprshot.enable hyprshot
       ++ lib.optionals config.myConfig.hyprland.audio.enable [ wireplumber playerctl pavucontrol ]

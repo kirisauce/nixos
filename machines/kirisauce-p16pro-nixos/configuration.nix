@@ -25,6 +25,8 @@
     ffmpeg-full
 
     rustup
+
+    ntfs3g
   ];
 
   environment.shells = [
